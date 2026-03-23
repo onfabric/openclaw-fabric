@@ -1,0 +1,558 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Fabric API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/users/{user_id}/memories": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "List User Tapestry Memories",
+        "operationId": "list_user_tapestry_memories_users__user_id__memories_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "The ID of the user",
+              "title": "User Id"
+            },
+            "description": "The ID of the user"
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Query"
+            }
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "From Date"
+            }
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "To Date"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page Token"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 10,
+              "title": "Page Size"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PageSortDirection"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "desc",
+              "title": "Direction"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The api key generated from the Fabric developer portal",
+              "title": "X-Api-Key"
+            },
+            "description": "The api key generated from the Fabric developer portal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListMemoriesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/threads": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "List User Threads",
+        "description": "Get threads for a user.\n\nThe thread payload is formatted as an [Activity Streams 2.0](https://www.w3.org/TR/activitystreams-core/) compliant object.\nExtension field: Some nodes may include `fibreKind` next to type. While type remains the canonical AS2 type,\nfibreKind further distinguishes our domain-specific interaction kinds (e.g., to disambiguate multiple product interactions that would otherwise share the same AS2 type).\nThis field is optional, non-standard, and safe to ignore for generic AS2 clients. We intend to publish a formal AS2 extension for these semantics.\n\n> [!NOTE]\n> If the response contains no threads, it could mean one of the following:\n>\n> - **Consent not completed**: The user hasn't completed a consent flow with any provider yet.\n>   You should either prompt the user for consent again or wait for the consent to complete.\n>   When it does, Fabric will send a callback to the URL you configured in your consent config,\n>   confirming the consent succeeded.\n> - **Data not yet available**: The user has completed the consent, but the data is still being\n>   processed on Fabric's side. You should keep polling this endpoint until threads become available.\n> - **Processing error**: There was an error during the consent flow or while processing the data\n>   on Fabric's side. Please contact Fabric support for assistance.\n\n> [!TIP]\n> If a thread has `is_asset` set to `true`, you can obtain a signed URL for the asset\n> by calling the [`/users/{user_id}/threads/{thread_id}/asset`](#tag/users/GET/users/{user_id}/threads/{thread_id}/asset) endpoint.",
+        "operationId": "list_user_threads_users__user_id__threads_get",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid4",
+              "description": "The ID of the user",
+              "title": "User Id"
+            },
+            "description": "The ID of the user"
+          },
+          {
+            "name": "interaction_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by interaction type. See GET /interaction-types for valid values.",
+              "title": "Interaction Type"
+            },
+            "description": "Filter by interaction type. See GET /interaction-types for valid values."
+          },
+          {
+            "name": "from_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only return threads from this date onwards",
+              "title": "From Date"
+            },
+            "description": "Only return threads from this date onwards"
+          },
+          {
+            "name": "to_date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only return threads until this date",
+              "title": "To Date"
+            },
+            "description": "Only return threads until this date"
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Page Token"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 10,
+              "title": "Page Size"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/PageSortDirection"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "desc",
+              "title": "Direction"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "description": "The api key generated from the Fabric developer portal",
+              "title": "X-Api-Key"
+            },
+            "description": "The api key generated from the Fabric developer portal"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginationResponse_UserThreadSchema_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ListMemoriesResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/TapestryMemoryItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_page_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Page Token",
+            "description": "An opaque token to pass as `page_token` query parameter to retrieve the next page of results. `null` when there are no more results."
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "description": "Whether there are more results available beyond this page. Keep paginating with `next_page_token` until this is `false`."
+          }
+        },
+        "type": "object",
+        "required": ["items", "has_more"],
+        "title": "ListMemoriesResponse"
+      },
+      "PageSortDirection": {
+        "type": "string",
+        "enum": ["asc", "desc"],
+        "title": "PageSortDirection",
+        "description": "Enumeration for sorting direction."
+      },
+      "PaginationResponse_UserThreadSchema_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/UserThreadSchema"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_page_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Page Token",
+            "description": "An opaque token to pass as `page_token` query parameter to retrieve the next page of results. `null` when there are no more results."
+          },
+          "has_more": {
+            "type": "boolean",
+            "title": "Has More",
+            "description": "Whether there are more results available beyond this page. Keep paginating with `next_page_token` until this is `false`."
+          }
+        },
+        "type": "object",
+        "required": ["items", "has_more"],
+        "title": "PaginationResponse[UserThreadSchema]"
+      },
+      "TapestryMemoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "The unique identifier of the memory"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content",
+            "description": "The memory content"
+          },
+          "from_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Date",
+            "description": "Start of the period this memory covers"
+          },
+          "to_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To Date",
+            "description": "End of the period this memory covers"
+          },
+          "similarity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Similarity",
+            "description": "Cosine similarity score (0\u20131), only present when a query is given"
+          }
+        },
+        "type": "object",
+        "required": ["id", "content"],
+        "title": "TapestryMemoryItem"
+      },
+      "UserThreadSchema": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "interaction_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Interaction Type"
+          },
+          "preview": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Preview"
+          },
+          "payload": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Payload",
+            "description": "The thread data formatted as an [ActivityStreams 2.0](https://www.w3.org/TR/activitystreams-core/) compliant object."
+          },
+          "version": {
+            "type": "string",
+            "title": "Version"
+          },
+          "asat": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asat"
+          },
+          "is_asset": {
+            "type": "boolean",
+            "title": "Is Asset",
+            "default": false
+          },
+          "asset_description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asset Description"
+          }
+        },
+        "type": "object",
+        "required": ["id", "provider", "payload", "version"],
+        "title": "UserThreadSchema"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": ["loc", "msg", "type"],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
