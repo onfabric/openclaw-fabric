@@ -4,7 +4,7 @@
   "description": "Portable AI memory for OpenClaw",
   "configSchema": {
     "type": "object",
-    "required": ["apiKey", "userId"],
+    "required": [],
     "additionalProperties": false,
     "properties": {
       "apiKey": {
