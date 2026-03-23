@@ -2,53 +2,55 @@ import { Type } from '@sinclair/typebox';
 import type { OpenClawPluginApi } from 'openclaw/plugin-sdk/plugin-entry';
 import type { FabricClient } from '../api/client';
 import { PageSortDirection } from '../api/openapi';
+import { registerTool } from '../lib/register-tool';
+
+const ListThreadsToolParametersSchema = Type.Object({
+  interaction_type: Type.Optional(
+    Type.String({
+      description:
+        'Filter by interaction type. Call fabric_list_interaction_types first to see valid values.',
+    }),
+  ),
+  from_date: Type.Optional(
+    Type.String({
+      description: 'Only return interactions from this date onwards (ISO 8601, e.g. "2026-01-01").',
+    }),
+  ),
+  to_date: Type.Optional(
+    Type.String({
+      description: 'Only return interactions up to this date (ISO 8601, e.g. "2026-03-23").',
+    }),
+  ),
+  page_size: Type.Optional(
+    Type.Number({
+      description: 'Number of interactions to return per page.',
+      minimum: 1,
+      maximum: 100,
+    }),
+  ),
+  direction: Type.Optional(
+    Type.Enum(PageSortDirection, {
+      description: 'Sort direction: "asc" (oldest first) or "desc" (newest first, default).',
+    }),
+  ),
+  page_token: Type.Optional(
+    Type.String({
+      description:
+        "Opaque pagination cursor from a previous response's next_page_token. Omit for the first page.",
+    }),
+  ),
+});
 
 export function registerListThreadsTool(
   api: OpenClawPluginApi,
   client: FabricClient,
   userId: string,
 ): void {
-  api.registerTool({
+  registerTool(api, {
     name: 'fabric_list_interactions',
     label: 'List Fabric Interactions',
     description: "List the user's interactions on various digital platforms.",
-    parameters: Type.Object({
-      interaction_type: Type.Optional(
-        Type.String({
-          description:
-            'Filter by interaction type. Call fabric_list_interaction_types first to see valid values.',
-        }),
-      ),
-      from_date: Type.Optional(
-        Type.String({
-          description:
-            'Only return interactions from this date onwards (ISO 8601, e.g. "2026-01-01").',
-        }),
-      ),
-      to_date: Type.Optional(
-        Type.String({
-          description: 'Only return interactions up to this date (ISO 8601, e.g. "2026-03-23").',
-        }),
-      ),
-      page_size: Type.Optional(
-        Type.Number({
-          description: 'Number of interactions to return per page.',
-          minimum: 1,
-          maximum: 100,
-        }),
-      ),
-      direction: Type.Optional(
-        Type.Enum(PageSortDirection, {
-          description: 'Sort direction: "asc" (oldest first) or "desc" (newest first, default).',
-        }),
-      ),
-      page_token: Type.Optional(
-        Type.String({
-          description:
-            "Opaque pagination cursor from a previous response's next_page_token. Omit for the first page.",
-        }),
-      ),
-    }),
+    parameters: ListThreadsToolParametersSchema,
     async execute(_id, params) {
       const { data, error } = await client.GET('/users/{user_id}/threads', {
         params: {
@@ -65,10 +67,9 @@ export function registerListThreadsTool(
       });
 
       if (error) {
-        const errorDetails = { status: 'failed' as const, error };
         return {
           content: [{ type: 'text', text: `Error fetching threads: ${JSON.stringify(error)}` }],
-          details: errorDetails,
+          details: error,
         };
       }
 

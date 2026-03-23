@@ -1,18 +1,21 @@
 import { Type } from '@sinclair/typebox';
 import type { OpenClawPluginApi } from 'openclaw/plugin-sdk/plugin-entry';
 import type { FabricClient } from '../api/client';
+import { registerTool } from '../lib/register-tool';
+
+const ListInteractionTypesToolParametersSchema = Type.Object({});
 
 export function registerListInteractionTypesTool(
   api: OpenClawPluginApi,
   client: FabricClient,
 ): void {
-  api.registerTool({
+  registerTool(api, {
     name: 'fabric_list_interaction_types',
     label: 'List Fabric Interaction Types',
     description:
       'List all available Fabric interaction types. ' +
       'Use the desired type as the interaction_type argument of other tools.',
-    parameters: Type.Object({}),
+    parameters: ListInteractionTypesToolParametersSchema,
     async execute(_id, _params) {
       const { data, error } = await client.GET('/interaction-types', { params: {} });
 

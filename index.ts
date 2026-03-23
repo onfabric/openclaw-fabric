@@ -1,5 +1,6 @@
 import { definePluginEntry } from 'openclaw/plugin-sdk/plugin-entry';
 import { createFabricClient } from './api/client';
+import { configSchema, parseConfig } from './lib/config';
 import { registerListInteractionTypesTool } from './tools/list-interaction-types';
 import { registerListThreadsTool } from './tools/list-threads';
 
@@ -11,15 +12,17 @@ export default definePluginEntry({
   id: PLUGIN_ID,
   name: PLUGIN_NAME,
   description: PLUGIN_DESCRIPTION,
+  configSchema,
   register(api) {
-    const pluginConfig = api.pluginConfig as { apiKey: string; userId: string } | undefined;
-    if (!pluginConfig?.apiKey || !pluginConfig?.userId) {
+    const cfg = parseConfig(api.pluginConfig);
+    const { apiKey, userId } = cfg;
+
+    if (!apiKey || !userId) {
       api.logger.warn('openclaw-fabric: apiKey and userId must be set in plugin config');
       return;
     }
 
-    const client = createFabricClient({ apiKey: pluginConfig.apiKey });
-    const { userId } = pluginConfig;
+    const client = createFabricClient({ apiKey });
 
     registerListInteractionTypesTool(api, client);
     registerListThreadsTool(api, client, userId);

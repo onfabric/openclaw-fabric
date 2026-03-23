@@ -43,6 +43,8 @@
     "openclaw": ">=2026.1.29"
   },
   "dependencies": {
+    "@mariozechner/pi-agent-core": "^0.62.0",
+    "@sinclair/typebox": "^0.34.48",
     "openapi-fetch": "^0.17.0"
   }
 }
