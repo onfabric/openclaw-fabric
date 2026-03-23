@@ -11,8 +11,7 @@ export function registerListThreadsTool(
   api.registerTool({
     name: 'fabric_list_interactions',
     label: 'List Fabric Interactions',
-    description:
-      "List the user's interactions on various digital platforms.",
+    description: "List the user's interactions on various digital platforms.",
     parameters: Type.Object({
       interaction_type: Type.Optional(
         Type.String({
@@ -22,7 +21,8 @@ export function registerListThreadsTool(
       ),
       from_date: Type.Optional(
         Type.String({
-          description: 'Only return interactions from this date onwards (ISO 8601, e.g. "2026-01-01").',
+          description:
+            'Only return interactions from this date onwards (ISO 8601, e.g. "2026-01-01").',
         }),
       ),
       to_date: Type.Optional(
@@ -78,7 +78,12 @@ export function registerListThreadsTool(
         next_page_token: data.next_page_token ?? null,
       };
       return {
-        content: [{ type: 'text', text: "Found " + data.items.length + " interactions" + (data.has_more ? " (more available)" : "") }],
+        content: [
+          {
+            type: 'text',
+            text: `Found ${data.items.length} interactions${data.has_more ? ' (more available)' : ''}`,
+          },
+        ],
         details: result,
       };
     },
