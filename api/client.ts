@@ -1,7 +1,7 @@
 import createClient from 'openapi-fetch';
 import type { paths } from './openapi';
 
-const BASE_URL = 'https://api.onfabric.io/v1';
+const BASE_URL = 'https://api.onfabric.io/api/v1';
 
 type CreateFabricClientOptions = {
   apiKey: string;
