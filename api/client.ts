@@ -1,0 +1,20 @@
+import createClient from 'openapi-fetch';
+import type { paths } from './openapi';
+
+const BASE_URL = 'https://api.fabric.io/v1';
+
+type CreateFabricClientOptions = {
+  apiKey: string;
+};
+type CreateFabricClientResult = ReturnType<typeof createClient<paths>>;
+
+export function createFabricClient(options: CreateFabricClientOptions): CreateFabricClientResult {
+  const { apiKey } = options;
+
+  return createClient<paths>({
+    baseUrl: BASE_URL,
+    headers: {
+      'X-Api-Key': apiKey,
+    },
+  });
+}
