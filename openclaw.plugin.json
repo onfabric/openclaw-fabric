@@ -1,0 +1,9 @@
+{
+  "id": "openclaw-fabric",
+  "name": "OpenClaw Fabric",
+  "description": "Portable AI memory for OpenClaw",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false
+  }
+}
