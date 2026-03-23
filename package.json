@@ -29,9 +29,10 @@
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@commitlint/format": "^20.5.0",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "openclaw": ">=2026.1.29"
   }
 }
