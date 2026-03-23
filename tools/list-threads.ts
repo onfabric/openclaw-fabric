@@ -22,16 +22,16 @@ export function registerListThreadsTool(
       from_date: Type.Optional(
         Type.String({
           description:
-            'Only return interactions from this date onwards (ISO 8601, e.g. "2026-01-01").',
+            'Only return interactions from this date onwards (ISO 8601 format).',
         }),
       ),
       to_date: Type.Optional(
         Type.String({
-          description: 'Only return interactions up to this date (ISO 8601, e.g. "2026-03-23").',
+          description: 'Only return interactions up to this date (ISO 8601 format).',
         }),
       ),
       page_size: Type.Optional(
-        Type.Number({
+        Type.Integer({
           description: 'Number of interactions to return per page.',
           minimum: 1,
           maximum: 100,
