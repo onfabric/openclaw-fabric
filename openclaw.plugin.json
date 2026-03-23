@@ -4,6 +4,17 @@
   "description": "Portable AI memory for OpenClaw",
   "configSchema": {
     "type": "object",
-    "additionalProperties": false
+    "required": ["apiKey", "userId"],
+    "additionalProperties": false,
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "description": "API key from the Fabric developer portal"
+      },
+      "userId": {
+        "type": "string",
+        "description": "The Fabric user ID whose tapestry will be queried"
+      }
+    }
   }
 }

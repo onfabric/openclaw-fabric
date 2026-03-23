@@ -6,9 +6,9 @@ const BASE_URL = 'https://api.onfabric.io/api/v1';
 type CreateFabricClientOptions = {
   apiKey: string;
 };
-type CreateFabricClientResult = ReturnType<typeof createClient<paths>>;
+export type FabricClient = ReturnType<typeof createClient<paths>>;
 
-export function createFabricClient(options: CreateFabricClientOptions): CreateFabricClientResult {
+export function createFabricClient(options: CreateFabricClientOptions): FabricClient {
   const { apiKey } = options;
 
   return createClient<paths>({
