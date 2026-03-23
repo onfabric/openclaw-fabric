@@ -5,6 +5,26 @@
     "version": "0.1.0"
   },
   "paths": {
+    "/interaction-types": {
+      "get": {
+        "tags": ["Tapestry"],
+        "summary": "List Interaction Types",
+        "description": "Get all available interaction types grouped by provider.",
+        "operationId": "list_interaction_types_interaction_types_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InteractionTypesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/users/{user_id}/memories": {
       "get": {
         "tags": ["Users"],
@@ -325,6 +345,38 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "InteractionType": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": ["name", "description"],
+        "title": "InteractionType"
+      },
+      "InteractionTypesResponse": {
+        "properties": {
+          "interaction_types": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/InteractionType"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Interaction Types"
+          }
+        },
+        "type": "object",
+        "required": ["interaction_types"],
+        "title": "InteractionTypesResponse"
       },
       "ListMemoriesResponse": {
         "properties": {

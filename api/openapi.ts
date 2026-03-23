@@ -4,6 +4,26 @@
  */
 
 export interface paths {
+    "/interaction-types": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Interaction Types
+         * @description Get all available interaction types grouped by provider.
+         */
+        get: operations["list_interaction_types_interaction_types_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/users/{user_id}/memories": {
         parameters: {
             query?: never;
@@ -70,6 +90,20 @@ export interface components {
         HTTPValidationError: {
             /** Detail */
             detail?: components["schemas"]["ValidationError"][];
+        };
+        /** InteractionType */
+        InteractionType: {
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+        };
+        /** InteractionTypesResponse */
+        InteractionTypesResponse: {
+            /** Interaction Types */
+            interaction_types: {
+                [key: string]: components["schemas"]["InteractionType"][];
+            };
         };
         /** ListMemoriesResponse */
         ListMemoriesResponse: {
@@ -181,6 +215,8 @@ export interface components {
     pathItems: never;
 }
 export type SchemaHttpValidationError = components['schemas']['HTTPValidationError'];
+export type SchemaInteractionType = components['schemas']['InteractionType'];
+export type SchemaInteractionTypesResponse = components['schemas']['InteractionTypesResponse'];
 export type SchemaListMemoriesResponse = components['schemas']['ListMemoriesResponse'];
 export type SchemaPaginationResponseUserThreadSchema = components['schemas']['PaginationResponse_UserThreadSchema_'];
 export type SchemaTapestryMemoryItem = components['schemas']['TapestryMemoryItem'];
@@ -188,6 +224,26 @@ export type SchemaUserThreadSchema = components['schemas']['UserThreadSchema'];
 export type SchemaValidationError = components['schemas']['ValidationError'];
 export type $defs = Record<string, never>;
 export interface operations {
+    list_interaction_types_interaction_types_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InteractionTypesResponse"];
+                };
+            };
+        };
+    };
     list_user_tapestry_memories_users__user_id__memories_get: {
         parameters: {
             query?: {
