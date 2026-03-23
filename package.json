@@ -1,7 +1,7 @@
 {
   "name": "@onfabric/openclaw-fabric",
   "description": "Portable AI memory for OpenClaw",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Fabric Developers <developers@onfabric.io>",
   "repository": {
     "type": "git",
@@ -9,6 +9,11 @@
   },
   "license": "MIT",
   "type": "module",
+  "openclaw": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
   "files": [
     "index.ts",
     "package.json",
