@@ -26,5 +26,7 @@ export default definePluginEntry({
 
     registerListInteractionTypesTool(api, client);
     registerListThreadsTool(api, client, userId);
+
+    api.logger.info('openclaw-fabric: registered tools');
   },
 });
