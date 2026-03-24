@@ -2,7 +2,7 @@
   "id": "openclaw-fabric",
   "name": "OpenClaw Fabric",
   "description": "Portable AI memory for OpenClaw",
-  "skills": ["skills/retrieve-relevant-user-memories", "skills/user-check-in"],
+  "skills": ["skills/retrieve-relevant-user-memories"],
   "configSchema": {
     "type": "object",
     "required": [],
