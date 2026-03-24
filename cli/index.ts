@@ -10,7 +10,7 @@ export function registerCli(api: OpenClawPluginApi) {
 
       setupCommand.register({ cmd, config });
 
-      console.log('openclaw-fabric: registered cli commands');
+      api.logger.info('openclaw-fabric: registered cli commands');
     },
     { commands: [CLI_ROOT_COMMAND] },
   );
