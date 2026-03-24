@@ -50,16 +50,16 @@ type CronJob = {
   enabled: boolean;
 };
 
-type CronListResult = {
+type CliCronListResult = {
   jobs: CronJob[];
   total: number;
 };
 
 export const cli = {
   cron: {
-    list: async (): Promise<CronListResult> => {
+    list: async (): Promise<CliCronListResult> => {
       const result = await execAsync('openclaw cron list --json');
-      return JSON.parse(result) as CronListResult;
+      return JSON.parse(result);
     },
 
     add: async ({ cronExpression, name, prompt }: CliCronAddOptions): Promise<string> => {
@@ -72,18 +72,6 @@ export const cli = {
       console.log(`✅ Cron job added: ${name}`);
 
       return result;
-    },
-
-    addIfNotExists: async (options: CliCronAddOptions): Promise<void> => {
-      const { jobs } = await cli.cron.list();
-      const exists = jobs.some((job) => job.name === options.name);
-
-      if (exists) {
-        console.log(`⏭️ Cron job already exists, skipping: ${options.name}`);
-        return;
-      }
-
-      await cli.cron.add(options);
     },
   },
 };
