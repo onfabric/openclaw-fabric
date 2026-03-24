@@ -1,4 +1,4 @@
-import path from 'node:path';
+import * as path from 'node:path';
 import { PLUGIN_ID } from './config';
 
 const FABRIC_PLUGIN_SKILLS_DIR = path.join('~/.openclaw/extensions', PLUGIN_ID, 'skills');
