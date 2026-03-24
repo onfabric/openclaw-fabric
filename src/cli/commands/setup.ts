@@ -35,7 +35,7 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
       console.log('\n✓ Configuration saved to ~/.openclaw/openclaw.json');
 
       if (workspaceDir) {
-        console.log(`Workspace directory is available: ${workspaceDir}`);
+        console.log(`\nWorkspace directory is available: ${workspaceDir}`);
         replaceContentInWorkspaceFile(
           workspaceDir,
           WorkspaceFile.HEARTBEAT,
@@ -43,6 +43,7 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
         );
       }
 
+      console.log('\n✓ Configuration complete.');
       console.log('  Restart the OpenClaw gateway to apply changes: openclaw gateway restart\n');
     });
 }
