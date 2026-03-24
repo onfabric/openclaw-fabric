@@ -52,6 +52,8 @@ export function registerListThreadsTool(
     description: "List the user's interactions on various digital platforms.",
     parameters: ListThreadsToolParametersSchema,
     async execute(_id, params) {
+      api.logger.info('openclaw-fabric: listing threads...');
+
       const { data, error } = await client.GET('/users/{user_id}/threads', {
         params: {
           path: { user_id: userId },
@@ -78,6 +80,9 @@ export function registerListThreadsTool(
         has_more: data.has_more,
         next_page_token: data.next_page_token ?? null,
       };
+
+      api.logger.info('openclaw-fabric: listing threads... done');
+
       return {
         content: [
           {
