@@ -37,7 +37,11 @@ export function registerSearchMemoriesTool(
   registerTool(api, {
     name: 'fabric_search_memories',
     label: 'Search Fabric Memories',
-    description: "Search the user's memories stored in Fabric.",
+    description:
+      "Retrieves episodic memories derived from the user's interactions. " +
+      'Each memory summarises what the user was doing during a specific period of time. ' +
+      'Memories are not a profile of the user as a whole — they are snapshots. ' +
+      'To understand the user more broadly, look for patterns across several memories.',
     parameters: SearchMemoriesToolParametersSchema,
     async execute(_id, params) {
       api.logger.info('openclaw-fabric: searching memories...');
