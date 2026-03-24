@@ -1,3 +1,4 @@
+import { cron as deepUserProfileCron } from '../../crons/deep-user-profile';
 import { prompt } from '../../lib/cli';
 import { saveFabricPluginConfig } from '../../lib/config';
 import { replaceContentInWorkspaceFile, WorkspaceFile } from '../../lib/openclaw';
@@ -44,6 +45,8 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
       } else {
         console.warn('\n⚠️ Workspace directory is not available. Cannot update workspace files.');
       }
+
+      await deepUserProfileCron.register();
 
       console.log('\n✅ Configuration complete.');
       console.log('  Restart the OpenClaw gateway to apply changes: openclaw gateway restart\n');
