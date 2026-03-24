@@ -32,7 +32,7 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
 
       saveFabricPluginConfig(config, { apiKey, userId });
 
-      console.log('\n⚙️ Configuration saved to ~/.openclaw/openclaw.json');
+      console.log('\n💾 Configuration saved to ~/.openclaw/openclaw.json');
 
       if (workspaceDir) {
         console.log(`\n📂 Workspace directory is available: ${workspaceDir}`);
