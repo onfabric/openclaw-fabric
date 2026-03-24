@@ -2,6 +2,9 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import type { OpenClawConfig } from 'openclaw/plugin-sdk';
+import { exec } from './exec';
+
+export const DEFAULT_AGENT_ID = 'main';
 
 function getOpenClawConfigDir(): string {
   return path.join(os.homedir(), '.openclaw');
@@ -34,3 +37,25 @@ export function replaceContentInWorkspaceFile(
   fs.writeFileSync(workspaceFilePath, content);
   console.log(`✅ ${filename} updated`);
 }
+
+type CliCronAddOptions = {
+  cronExpression: string;
+  name: string;
+  prompt: string;
+};
+
+export const cli = {
+  cron: {
+    add: ({ cronExpression, name, prompt }: CliCronAddOptions): string => {
+      console.log(`📅 Adding cron job: ${name}`);
+
+      const result = exec(
+        `openclaw cron add --name ${name} --prompt ${prompt} --cron ${cronExpression}`,
+      );
+
+      console.log(`✅ Cron job added: ${name}`);
+
+      return result;
+    },
+  },
+};
