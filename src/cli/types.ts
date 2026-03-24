@@ -3,4 +3,5 @@ import type { OpenClawPluginCliContext } from 'openclaw/plugin-sdk/plugin-runtim
 export type CommandCtx = {
   cmd: ReturnType<OpenClawPluginCliContext['program']['command']>;
   config: OpenClawPluginCliContext['config'];
+  workspaceDir: OpenClawPluginCliContext['workspaceDir'];
 };

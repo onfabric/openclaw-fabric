@@ -19,3 +19,24 @@ export function saveOpenClawConfig(config: OpenClawConfig): void {
   const configPath = getOpenClawConfigFilePath(configDir);
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 }
+
+export enum WorkspaceFile {
+  HEARTBEAT = 'HEARTBEAT.md',
+}
+
+export function appendContentToWorkspaceFile(
+  workspaceDir: string,
+  filename: WorkspaceFile,
+  content: string,
+): void {
+  console.log(`Modifying ${filename}...`);
+  const workspaceFilePath = path.join(workspaceDir, filename);
+  if (!fs.existsSync(workspaceFilePath)) {
+    console.log(`${filename} does not exist. Creating and appending content...`);
+    fs.writeFileSync(workspaceFilePath, content);
+    console.log(`✓ ${filename} created`);
+  } else {
+    fs.appendFileSync(workspaceFilePath, `\n${content}\n`);
+    console.log(`✓ ${filename} updated`);
+  }
+}
