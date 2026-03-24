@@ -19,7 +19,11 @@ Invoke the tools proactively whenever the task at hand benefits from knowing the
 
 Do **not** use when the question is purely technical, general knowledge, or already answered in this session.
 
----
+## Available tools
+
+- `fabric_search_memories`
+- `fabric_list_interactions`
+- `fabric_list_interaction_types`
 
 ## How to use the tools together
 
