@@ -77,9 +77,7 @@ export function registerListThreadsTool(
 
       const text = data.items
         .map((item, i) => {
-          const parts = [
-            `${i + 1}. [${item.interaction_type ?? 'unknown'}] ${item.provider}`,
-          ];
+          const parts = [`${i + 1}. [${item.interaction_type ?? 'unknown'}] ${item.provider}`];
           if (item.asat) parts.push(`  Date: ${item.asat}`);
           if (item.preview) parts.push(`  Preview: ${item.preview}`);
           if (item.asset_description) parts.push(`  Asset Description: ${item.asset_description}`);
