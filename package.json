@@ -1,7 +1,7 @@
 {
   "name": "@onfabric/openclaw-fabric",
   "description": "Portable AI memory for OpenClaw",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "author": "Fabric Developers <developers@onfabric.io>",
   "repository": {
     "type": "git",
@@ -29,7 +29,7 @@
     "check:all": "bun check:types && bun check:codestyle",
     "fix:codestyle": "bun run --bun biome check --write",
     "check:commit-message": "bun run --bun commitlint",
-    "generate-openapi": "bun run --bun openapi-typescript api/openapi.json -o api/openapi.ts --enum --root-types"
+    "generate-openapi": "bun run --bun openapi-typescript src/api/openapi.json -o src/api/openapi.ts --enum --root-types"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.8",
