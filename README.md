@@ -7,3 +7,9 @@ Portable AI memory for OpenClaw.
 ```bash
 openclaw plugins install @onfabric/openclaw-fabric
 ```
+
+## Setup
+
+```bash
+openclaw fabric setup
+```
