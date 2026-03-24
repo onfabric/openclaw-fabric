@@ -50,7 +50,7 @@ export const cli = {
       console.log(`📅 Adding cron job: ${name}`);
 
       const result = exec(
-        `openclaw cron add --name ${name} --prompt ${prompt} --cron ${cronExpression}`,
+        `openclaw cron add --name ${name} --prompt "${prompt}" --cron "${cronExpression}"`,
       );
 
       console.log(`✅ Cron job added: ${name}`);
