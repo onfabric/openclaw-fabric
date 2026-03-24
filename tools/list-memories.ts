@@ -4,6 +4,8 @@ import type { FabricClient } from '../api/client';
 import { PageSortDirection } from '../api/openapi';
 import { registerTool } from '../lib/register-tool';
 
+const DEFAULT_PAGE_SIZE = 50;
+
 const ListMemoriesToolParametersSchema = Type.Object({
   query: Type.Optional(
     Type.String({
@@ -20,22 +22,9 @@ const ListMemoriesToolParametersSchema = Type.Object({
       description: 'Only return memories up to this date (ISO 8601 format).',
     }),
   ),
-  page_size: Type.Optional(
-    Type.Integer({
-      description: 'Number of memories to return per page.',
-      minimum: 1,
-      maximum: 100,
-    }),
-  ),
   direction: Type.Optional(
     Type.Enum(PageSortDirection, {
       description: 'Sort direction: "asc" (oldest first) or "desc" (newest first, default).',
-    }),
-  ),
-  page_token: Type.Optional(
-    Type.String({
-      description:
-        "Opaque pagination cursor from a previous response's next_page_token. Omit for the first page.",
     }),
   ),
 });
@@ -60,9 +49,9 @@ export function registerListMemoriesTool(
             query: params.query ?? null,
             from_date: params.from_date ?? null,
             to_date: params.to_date ?? null,
-            page_size: params.page_size,
+            page_size: DEFAULT_PAGE_SIZE,
             direction: params.direction ?? null,
-            page_token: params.page_token ?? null,
+            page_token: null,
           },
         },
       });
@@ -82,7 +71,7 @@ export function registerListMemoriesTool(
         .map((item, i) => {
           const dates =
             item.from_date || item.to_date
-              ? ` [${item.from_date ?? '?'} – ${item.to_date ?? '?'}]`
+              ? ` [${item.from_date ?? '?'} - ${item.to_date ?? '?'}]`
               : '';
           return `${i + 1}. ${item.content}${dates}`;
         })
