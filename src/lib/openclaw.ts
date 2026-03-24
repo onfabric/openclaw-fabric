@@ -16,9 +16,8 @@ function getOpenClawConfigFilePath(configDir: string): string {
 
 export function saveOpenClawConfig(config: OpenClawConfig): void {
   const configDir = getOpenClawConfigDir();
-  if (!fs.existsSync(configDir)) {
-    fs.mkdirSync(configDir, { recursive: true });
-  }
+  fs.mkdirSync(configDir, { recursive: true });
+
   const configPath = getOpenClawConfigFilePath(configDir);
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 }
@@ -36,6 +35,11 @@ export function replaceContentInWorkspaceFile(
   const workspaceFilePath = path.join(workspaceDir, filename);
   fs.writeFileSync(workspaceFilePath, content);
   console.log(`✅ ${filename} updated`);
+}
+
+export function workspaceFileExists(workspaceDir: string, filename: WorkspaceFile): boolean {
+  const workspaceFilePath = path.join(workspaceDir, filename);
+  return fs.existsSync(workspaceFilePath);
 }
 
 type CliCronAddOptions = {

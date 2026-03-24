@@ -1,7 +1,11 @@
 import { cron as deepUserProfileCron } from '../../crons/deep-user-profile';
 import { prompt } from '../../lib/cli';
 import { saveFabricPluginConfig } from '../../lib/config';
-import { replaceContentInWorkspaceFile, WorkspaceFile } from '../../lib/openclaw';
+import {
+  replaceContentInWorkspaceFile,
+  WorkspaceFile,
+  workspaceFileExists,
+} from '../../lib/openclaw';
 import { getSkillPath, Skill } from '../../lib/skills';
 import type { CommandCtx } from '../types';
 
@@ -35,7 +39,7 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
 
       console.log('\n💾 Configuration saved to ~/.openclaw/openclaw.json');
 
-      if (workspaceDir) {
+      if (workspaceDir && workspaceFileExists(workspaceDir, WorkspaceFile.HEARTBEAT)) {
         console.log(`\n📂 Workspace directory is available: ${workspaceDir}`);
         replaceContentInWorkspaceFile(
           workspaceDir,
@@ -43,7 +47,10 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
           FABRIC_PLUGIN_HEARTBEAT_CONTENT,
         );
       } else {
-        console.warn('\n⚠️ Workspace directory is not available. Cannot update workspace files.');
+        console.warn(
+          `\n⚠️ Workspace directory or ${WorkspaceFile.HEARTBEAT} file is not available.`,
+        );
+        console.warn('  Start at least one conversation with your OpenClaw first.');
       }
 
       await deepUserProfileCron.register();
