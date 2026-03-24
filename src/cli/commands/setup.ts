@@ -20,32 +20,32 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
 
       const apiKey = await prompt('Enter your Fabric API key: ');
       if (!apiKey) {
-        console.error('\nNo API key provided. Setup cancelled.');
+        console.error('\n❌ No API key provided. Setup cancelled.');
         return;
       }
 
       const userId = await prompt('Enter your Fabric user ID: ');
       if (!userId) {
-        console.error('\nNo user ID provided. Setup cancelled.');
+        console.error('\n❌ No user ID provided. Setup cancelled.');
         return;
       }
 
       saveFabricPluginConfig(config, { apiKey, userId });
 
-      console.log('\n✓ Configuration saved to ~/.openclaw/openclaw.json');
+      console.log('\n⚙️ Configuration saved to ~/.openclaw/openclaw.json');
 
       if (workspaceDir) {
-        console.log(`\nWorkspace directory is available: ${workspaceDir}`);
+        console.log(`\n📂 Workspace directory is available: ${workspaceDir}`);
         replaceContentInWorkspaceFile(
           workspaceDir,
           WorkspaceFile.HEARTBEAT,
           FABRIC_PLUGIN_HEARTBEAT_CONTENT,
         );
       } else {
-        console.warn('\n⚠ Workspace directory is not available. Cannot update workspace files.');
+        console.warn('\n⚠️ Workspace directory is not available. Cannot update workspace files.');
       }
 
-      console.log('\n✓ Configuration complete.');
+      console.log('\n✅ Configuration complete.');
       console.log('  Restart the OpenClaw gateway to apply changes: openclaw gateway restart\n');
     });
 }

@@ -29,8 +29,8 @@ export function replaceContentInWorkspaceFile(
   filename: WorkspaceFile,
   content: string,
 ): void {
-  console.log(`Writing to ${filename}...`);
+  console.log(`📝 Writing to ${filename}...`);
   const workspaceFilePath = path.join(workspaceDir, filename);
   fs.writeFileSync(workspaceFilePath, content);
-  console.log(`✓ ${filename} written`);
+  console.log(`✅ ${filename} updated`);
 }
