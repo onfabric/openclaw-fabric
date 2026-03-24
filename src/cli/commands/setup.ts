@@ -20,13 +20,13 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
 
       const apiKey = await prompt('Enter your Fabric API key: ');
       if (!apiKey) {
-        console.log('\nNo API key provided. Setup cancelled.');
+        console.error('\nNo API key provided. Setup cancelled.');
         return;
       }
 
       const userId = await prompt('Enter your Fabric user ID: ');
       if (!userId) {
-        console.log('\nNo user ID provided. Setup cancelled.');
+        console.error('\nNo user ID provided. Setup cancelled.');
         return;
       }
 
@@ -41,6 +41,8 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
           WorkspaceFile.HEARTBEAT,
           FABRIC_PLUGIN_HEARTBEAT_CONTENT,
         );
+      } else {
+        console.warn('\n⚠ Workspace directory is not available. Cannot update workspace files.');
       }
 
       console.log('\n✓ Configuration complete.');
