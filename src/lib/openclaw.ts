@@ -50,7 +50,7 @@ export const cli = {
       console.log(`📅 Adding cron job: ${name}`);
 
       const result = await execAsync(
-        `openclaw cron add --name ${name} --cron "${cronExpression}" --message "${prompt}"`,
+        `openclaw cron add --name ${name} --cron "${cronExpression}" --message "${prompt}" --no-deliver`,
       );
 
       console.log(`✅ Cron job added: ${name}`);
