@@ -13,9 +13,8 @@ function getOpenClawConfigFilePath(configDir: string): string {
 
 export function saveOpenClawConfig(config: OpenClawConfig): void {
   const configDir = getOpenClawConfigDir();
-  if (!fs.existsSync(configDir)) {
-    fs.mkdirSync(configDir, { recursive: true });
-  }
+  fs.mkdirSync(configDir, { recursive: true });
+
   const configPath = getOpenClawConfigFilePath(configDir);
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 }
@@ -29,6 +28,8 @@ export function replaceContentInWorkspaceFile(
   filename: WorkspaceFile,
   content: string,
 ): void {
+  fs.mkdirSync(workspaceDir, { recursive: true });
+
   console.log(`📝 Writing to ${filename}...`);
   const workspaceFilePath = path.join(workspaceDir, filename);
   fs.writeFileSync(workspaceFilePath, content);
