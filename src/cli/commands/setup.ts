@@ -15,6 +15,13 @@ const FABRIC_PLUGIN_HEARTBEAT_CONTENT = `# HEARTBEAT.md
 - follow the guidelines of this skill: \`${getSkillPath(Skill.USER_CHECK_IN)}\`
 `;
 
+const FABRIC_PLUGIN_TOOLS_CONTENT = `# TOOLS.md - Local Notes
+
+## Retrieve relevant user memories
+Whenever the user is discussing any topic that could benefit from personalised context — such as travel plans, food preferences, relationships,
+work, hobbies, health, entertainment, shopping, or values — read and follow this skill before responding: \`${getSkillPath(Skill.RETRIEVE_RELEVANT_USER_MEMORIES)}\`
+`;
+
 function register({ cmd, config, workspaceDir }: CommandCtx) {
   cmd
     .command('setup')
@@ -50,6 +57,17 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
         console.warn(
           `\n⚠️ Workspace directory or ${WorkspaceFile.HEARTBEAT} file is not available.`,
         );
+        console.warn('  Start at least one conversation with your OpenClaw first.');
+      }
+
+      if (workspaceDir && workspaceFileExists(workspaceDir, WorkspaceFile.TOOLS)) {
+        replaceContentInWorkspaceFile(
+          workspaceDir,
+          WorkspaceFile.TOOLS,
+          FABRIC_PLUGIN_TOOLS_CONTENT,
+        );
+      } else {
+        console.warn(`\n⚠️ Workspace directory or ${WorkspaceFile.TOOLS} file is not available.`);
         console.warn('  Start at least one conversation with your OpenClaw first.');
       }
 
