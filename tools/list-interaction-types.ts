@@ -17,6 +17,8 @@ export function registerListInteractionTypesTool(
       'Use the desired type as the interaction_type argument of other tools.',
     parameters: ListInteractionTypesToolParametersSchema,
     async execute(_id, _params) {
+      api.logger.info('openclaw-fabric: listing interaction types...');
+
       const { data, error } = await client.GET('/interaction-types', { params: {} });
 
       if (error) {
@@ -28,6 +30,8 @@ export function registerListInteractionTypesTool(
           details: errorDetails,
         };
       }
+
+      api.logger.info('openclaw-fabric: listing interaction types... done');
 
       return {
         content: [{ type: 'text', text: JSON.stringify(data.interaction_types) }],
