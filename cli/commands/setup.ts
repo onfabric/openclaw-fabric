@@ -8,7 +8,7 @@ function register({ cmd, config }: CommandCtx) {
     .description('Configure the Fabric CLI')
     .action(async () => {
       console.log('\n🧠 Fabric Setup\n');
-      console.log('Get your API key from: https://developer.onfabric.io\n');
+      console.log('Get your API key and user ID from: https://developer.onfabric.io\n');
 
       const apiKey = await prompt('Enter your Fabric API key: ');
       if (!apiKey) {

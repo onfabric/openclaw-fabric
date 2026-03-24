@@ -22,7 +22,9 @@ export default definePluginEntry({
 
     const { apiKey, userId } = cfg;
     if (!apiKey || !userId) {
-      api.logger.warn('openclaw-fabric: apiKey and userId must be set in plugin config');
+      api.logger.warn(
+        'openclaw-fabric: apiKey and/or userId are not set. Run `openclaw fabric setup` to configure the plugin.',
+      );
       return;
     }
 
