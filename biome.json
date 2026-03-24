@@ -9,8 +9,8 @@
     "ignoreUnknown": false,
     "includes": [
       "**",
-      "!api/openapi.ts",
-      "!api/openapi.json",
+      "!src/api/openapi.ts",
+      "!src/api/openapi.json",
       "!**/node_modules",
       "!**/dist",
       "!**/bun.lock",
