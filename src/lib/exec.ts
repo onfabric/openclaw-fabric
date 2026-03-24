@@ -1,5 +1,12 @@
-import { execSync } from 'node:child_process';
+import { exec } from 'node:child_process';
+import { promisify } from 'node:util';
 
-export function exec(command: string): string {
-  return execSync(command, { encoding: 'utf-8' });
+const execPromise = promisify(exec);
+
+export async function execAsync(command: string): Promise<string> {
+  const { stdout, stderr } = await execPromise(command);
+  if (stderr) {
+    throw new Error(`Failed to execute command: ${stderr}`);
+  }
+  return stdout;
 }

@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import type { OpenClawConfig } from 'openclaw/plugin-sdk';
-import { exec } from './exec';
+import { execAsync } from './exec';
 
 export const DEFAULT_AGENT_ID = 'main';
 
@@ -46,10 +46,10 @@ type CliCronAddOptions = {
 
 export const cli = {
   cron: {
-    add: ({ cronExpression, name, prompt }: CliCronAddOptions): string => {
+    add: async ({ cronExpression, name, prompt }: CliCronAddOptions): Promise<string> => {
       console.log(`📅 Adding cron job: ${name}`);
 
-      const result = exec(
+      const result = await execAsync(
         `openclaw cron add --name ${name} --prompt "${prompt}" --cron "${cronExpression}"`,
       );
 

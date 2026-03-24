@@ -1,7 +1,6 @@
 import { definePluginEntry } from 'openclaw/plugin-sdk/plugin-entry';
 import { createFabricClient } from './api/client';
 import { registerCli } from './cli';
-import { cron as deepUserProfileCron } from './crons/deep-user-profile';
 import { configSchema, PLUGIN_ID, parseConfig } from './lib/config';
 import { registerListInteractionTypesTool } from './tools/list-interaction-types';
 import { registerListThreadsTool } from './tools/list-threads';
@@ -30,8 +29,6 @@ export default definePluginEntry({
     registerListInteractionTypesTool(api, client);
     registerListThreadsTool(api, client, userId);
     registerSearchMemoriesTool(api, client, userId);
-
-    deepUserProfileCron.register();
 
     api.logger.info('openclaw-fabric: registered tools');
   },
