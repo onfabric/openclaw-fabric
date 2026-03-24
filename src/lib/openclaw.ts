@@ -24,6 +24,7 @@ export function saveOpenClawConfig(config: OpenClawConfig): void {
 
 export enum WorkspaceFile {
   HEARTBEAT = 'HEARTBEAT.md',
+  TOOLS = 'TOOLS.md',
 }
 
 export function replaceContentInWorkspaceFile(
