@@ -1,9 +1,11 @@
 import { prompt } from '../../lib/cli';
 import { saveFabricPluginConfig } from '../../lib/config';
 import { appendContentToWorkspaceFile, WorkspaceFile } from '../../lib/openclaw';
+import { getSkillPath, Skill } from '../../lib/skills';
 import type { CommandCtx } from '../types';
 
-const FABRIC_PLUGIN_HEARTBEAT_CONTENT = '## Explore recent interactions\n\n- Use the Fabric plugin';
+const FABRIC_PLUGIN_HEARTBEAT_CONTENT = `## Check-in with the user
+- follow the guidelines of this skill: \`${getSkillPath(Skill.USER_CHECK_IN)}\``;
 
 function register({ cmd, config, workspaceDir }: CommandCtx) {
   cmd
