@@ -1,5 +1,5 @@
 import { prompt } from '../../lib/cli';
-import { saveOpenClawConfig } from '../../lib/openclaw';
+import { saveFabricPluginConfig } from '../../lib/config';
 import type { CommandCtx } from '../types';
 
 function register({ cmd, config }: CommandCtx) {
@@ -22,22 +22,7 @@ function register({ cmd, config }: CommandCtx) {
         return;
       }
 
-      if (!config.plugins) {
-        config.plugins = {};
-      }
-      if (!config.plugins.entries) {
-        config.plugins.entries = {};
-      }
-
-      config.plugins.entries['openclaw-fabric'] = {
-        enabled: true,
-        config: {
-          apiKey,
-          userId,
-        },
-      };
-
-      saveOpenClawConfig(config);
+      saveFabricPluginConfig(config, { apiKey, userId });
 
       console.log('\n✓ Configuration saved to ~/.openclaw/openclaw.json');
       console.log('  Restart the OpenClaw gateway to apply changes: openclaw gateway restart\n');
