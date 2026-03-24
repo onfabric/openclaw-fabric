@@ -5,8 +5,6 @@ description: Check what the user has been up to and try to be helpful.
 
 ## How to run a check-in
 
-Follow the tool usage strategy defined in the `plugin-guidelines` skill (`skills/plugin-guidelines/SKILL.md`) — read it before proceeding if you have not already.
-
 ### 1. Scan today's and yesterday's interactions
 - call `fabric_list_interactions` for today and yesterday to get a raw picture of what the user has been doing
 - look for anything noteworthy: a repeated search, a new topic, a pattern that stands out
