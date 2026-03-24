@@ -1,11 +1,14 @@
 import { prompt } from '../../lib/cli';
 import { saveFabricPluginConfig } from '../../lib/config';
-import { appendContentToWorkspaceFile, WorkspaceFile } from '../../lib/openclaw';
+import { replaceContentInWorkspaceFile, WorkspaceFile } from '../../lib/openclaw';
 import { getSkillPath, Skill } from '../../lib/skills';
 import type { CommandCtx } from '../types';
 
-const FABRIC_PLUGIN_HEARTBEAT_CONTENT = `## Check-in with the user
-- follow the guidelines of this skill: \`${getSkillPath(Skill.USER_CHECK_IN)}\``;
+const FABRIC_PLUGIN_HEARTBEAT_CONTENT = `# HEARTBEAT.md
+
+## Check-in with the user
+- follow the guidelines of this skill: \`${getSkillPath(Skill.USER_CHECK_IN)}\`
+`;
 
 function register({ cmd, config, workspaceDir }: CommandCtx) {
   cmd
@@ -33,7 +36,7 @@ function register({ cmd, config, workspaceDir }: CommandCtx) {
 
       if (workspaceDir) {
         console.log(`Workspace directory is available: ${workspaceDir}`);
-        appendContentToWorkspaceFile(
+        replaceContentInWorkspaceFile(
           workspaceDir,
           WorkspaceFile.HEARTBEAT,
           FABRIC_PLUGIN_HEARTBEAT_CONTENT,

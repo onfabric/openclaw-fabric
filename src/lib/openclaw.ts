@@ -24,19 +24,13 @@ export enum WorkspaceFile {
   HEARTBEAT = 'HEARTBEAT.md',
 }
 
-export function appendContentToWorkspaceFile(
+export function replaceContentInWorkspaceFile(
   workspaceDir: string,
   filename: WorkspaceFile,
   content: string,
 ): void {
-  console.log(`Modifying ${filename}...`);
+  console.log(`Writing to ${filename}...`);
   const workspaceFilePath = path.join(workspaceDir, filename);
-  if (!fs.existsSync(workspaceFilePath)) {
-    console.log(`${filename} does not exist. Creating and appending content...`);
-    fs.writeFileSync(workspaceFilePath, content);
-    console.log(`✓ ${filename} created`);
-  } else {
-    fs.appendFileSync(workspaceFilePath, `\n${content}\n`);
-    console.log(`✓ ${filename} updated`);
-  }
+  fs.writeFileSync(workspaceFilePath, content);
+  console.log(`✓ ${filename} written`);
 }
