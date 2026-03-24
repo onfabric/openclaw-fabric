@@ -31,12 +31,15 @@ export function replaceContentInWorkspaceFile(
   filename: WorkspaceFile,
   content: string,
 ): void {
-  fs.mkdirSync(workspaceDir, { recursive: true });
-
   console.log(`📝 Writing to ${filename}...`);
   const workspaceFilePath = path.join(workspaceDir, filename);
   fs.writeFileSync(workspaceFilePath, content);
   console.log(`✅ ${filename} updated`);
+}
+
+export function workspaceFileExists(workspaceDir: string, filename: WorkspaceFile): boolean {
+  const workspaceFilePath = path.join(workspaceDir, filename);
+  return fs.existsSync(workspaceFilePath);
 }
 
 type CliCronAddOptions = {
