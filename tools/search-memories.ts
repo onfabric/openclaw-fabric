@@ -4,9 +4,9 @@ import type { FabricClient } from '../api/client';
 import { PageSortDirection } from '../api/openapi';
 import { registerTool } from '../lib/register-tool';
 
-const DEFAULT_PAGE_SIZE = 50;
+const DEFAULT_PAGE_SIZE = 20;
 
-const ListMemoriesToolParametersSchema = Type.Object({
+const SearchMemoriesToolParametersSchema = Type.Object({
   query: Type.Optional(
     Type.String({
       description: 'Search query to filter memories by content.',
@@ -29,18 +29,18 @@ const ListMemoriesToolParametersSchema = Type.Object({
   ),
 });
 
-export function registerListMemoriesTool(
+export function registerSearchMemoriesTool(
   api: OpenClawPluginApi,
   client: FabricClient,
   userId: string,
 ): void {
   registerTool(api, {
-    name: 'fabric_list_memories',
-    label: 'List Fabric Memories',
-    description: "List the user's memories stored in Fabric.",
-    parameters: ListMemoriesToolParametersSchema,
+    name: 'fabric_search_memories',
+    label: 'Search Fabric Memories',
+    description: "Search the user's memories stored in Fabric.",
+    parameters: SearchMemoriesToolParametersSchema,
     async execute(_id, params) {
-      api.logger.info('openclaw-fabric: listing memories...');
+      api.logger.info('openclaw-fabric: searching memories...');
 
       const { data, error } = await client.GET('/users/{user_id}/memories', {
         params: {
@@ -64,7 +64,7 @@ export function registerListMemoriesTool(
       }
 
       api.logger.info(
-        `openclaw-fabric: listing memories... done. Found ${data.items.length} memories${data.has_more ? ' (more available)' : ''}`,
+        `openclaw-fabric: searching memories... done. Found ${data.items.length} memories${data.has_more ? ' (more available)' : ''}`,
       );
 
       const text = data.items
