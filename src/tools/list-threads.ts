@@ -30,9 +30,10 @@ const ListThreadsToolParametersSchema = Type.Object({
   ),
   page_size: Type.Optional(
     Type.Number({
-      description: 'Number of interactions to return per page. Default is 20.',
+      description: 'Number of interactions to return per page.',
       minimum: 1,
       maximum: 100,
+      default: DEFAULT_PAGE_SIZE,
     }),
   ),
   page_token: Type.Optional(
