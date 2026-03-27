@@ -28,6 +28,19 @@ const ListThreadsToolParametersSchema = Type.Object({
       description: 'Sort direction: "asc" (oldest first) or "desc" (newest first, default).',
     }),
   ),
+  page_size: Type.Optional(
+    Type.Number({
+      description: 'Number of interactions to return per page.',
+      minimum: 1,
+      maximum: 100,
+      default: DEFAULT_PAGE_SIZE,
+    }),
+  ),
+  page_token: Type.Optional(
+    Type.String({
+      description: 'Token to continue listing interactions from a previous page.',
+    }),
+  ),
 });
 
 export function registerListThreadsTool(
@@ -50,9 +63,9 @@ export function registerListThreadsTool(
             interaction_type: params.interaction_type ?? null,
             from_date: params.from_date ?? null,
             to_date: params.to_date ?? null,
-            page_size: DEFAULT_PAGE_SIZE,
+            page_size: params.page_size || DEFAULT_PAGE_SIZE,
             direction: params.direction ?? null,
-            page_token: null,
+            page_token: params.page_token ?? null,
           },
         },
       });
