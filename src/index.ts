@@ -3,8 +3,7 @@ import { createFabricClient } from './api/client';
 import { registerCli } from './cli';
 import { configSchema, PLUGIN_ID, parseConfig } from './lib/config';
 import { registerListInteractionTypesTool } from './tools/list-interaction-types';
-import { registerListThreadsTool } from './tools/list-threads';
-import { registerSearchMemoriesTool } from './tools/search-memories';
+import { registerListInteractionsTool } from './tools/list-interactions';
 
 export default definePluginEntry({
   id: PLUGIN_ID,
@@ -27,8 +26,7 @@ export default definePluginEntry({
     const client = createFabricClient({ apiKey });
 
     registerListInteractionTypesTool(api, client);
-    registerListThreadsTool(api, client, userId);
-    registerSearchMemoriesTool(api, client, userId);
+    registerListInteractionsTool(api, client, userId);
 
     api.logger.info('openclaw-fabric: registered tools');
   },
