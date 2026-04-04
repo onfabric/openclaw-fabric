@@ -72,7 +72,9 @@ export function registerListInteractionsTool(
 
       if (error) {
         return {
-          content: [{ type: 'text', text: `Error fetching interactions: ${JSON.stringify(error)}` }],
+          content: [
+            { type: 'text', text: `Error fetching interactions: ${JSON.stringify(error)}` },
+          ],
           details: error,
         };
       }
