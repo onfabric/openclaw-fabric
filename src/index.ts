@@ -3,13 +3,12 @@ import { createFabricClient } from './api/client';
 import { registerCli } from './cli';
 import { configSchema, PLUGIN_ID, parseConfig } from './lib/config';
 import { registerListInteractionTypesTool } from './tools/list-interaction-types';
-import { registerListThreadsTool } from './tools/list-threads';
-import { registerSearchMemoriesTool } from './tools/search-memories';
+import { registerListInteractionsTool } from './tools/list-interactions';
 
 export default definePluginEntry({
   id: PLUGIN_ID,
   name: 'OpenClaw Fabric',
-  description: 'Portable AI memory for OpenClaw',
+  description: 'Sync interactions from various platforms and make them available to OpenClaw',
   configSchema,
   register(api) {
     const cfg = parseConfig(api.pluginConfig);
@@ -27,8 +26,7 @@ export default definePluginEntry({
     const client = createFabricClient({ apiKey });
 
     registerListInteractionTypesTool(api, client);
-    registerListThreadsTool(api, client, userId);
-    registerSearchMemoriesTool(api, client, userId);
+    registerListInteractionsTool(api, client, userId);
 
     api.logger.info('openclaw-fabric: registered tools');
   },

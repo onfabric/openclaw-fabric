@@ -6,7 +6,7 @@ import { registerTool } from '../lib/register-tool';
 
 const DEFAULT_PAGE_SIZE = 20;
 
-const ListThreadsToolParametersSchema = Type.Object({
+const ListInteractionsToolParametersSchema = Type.Object({
   interaction_type: Type.Optional(
     Type.String({
       description:
@@ -43,7 +43,7 @@ const ListThreadsToolParametersSchema = Type.Object({
   ),
 });
 
-export function registerListThreadsTool(
+export function registerListInteractionsTool(
   api: OpenClawPluginApi,
   client: FabricClient,
   userId: string,
@@ -52,9 +52,9 @@ export function registerListThreadsTool(
     name: 'fabric_list_interactions',
     label: 'List Fabric Interactions',
     description: "List the user's interactions on various digital platforms.",
-    parameters: ListThreadsToolParametersSchema,
+    parameters: ListInteractionsToolParametersSchema,
     async execute(_id, params) {
-      api.logger.info('openclaw-fabric: listing threads...');
+      api.logger.info('openclaw-fabric: listing interactions...');
 
       const { data, error } = await client.GET('/users/{user_id}/threads', {
         params: {
@@ -72,37 +72,47 @@ export function registerListThreadsTool(
 
       if (error) {
         return {
-          content: [{ type: 'text', text: `Error fetching threads: ${JSON.stringify(error)}` }],
+          content: [
+            { type: 'text', text: `Error fetching interactions: ${JSON.stringify(error)}` },
+          ],
           details: error,
         };
       }
 
-      const text = data.items
-        .map((item, i) => {
-          const parts = [`${i + 1}. [${item.interaction_type ?? 'unknown'}] ${item.provider}`];
-          if (item.asat) parts.push(`  Date: ${item.asat}`);
-          if (item.preview) parts.push(`  Preview: ${item.preview}`);
-          if (item.asset_description) parts.push(`  Asset Description: ${item.asset_description}`);
-          return parts.join('\n');
+      const interactions = data.items.map((item) => ({
+        asat: item.asat ?? null,
+        preview: item.preview ?? null,
+        asset_description: item.asset_description ?? null,
+      }));
+
+      const text = interactions
+        .map((t, i) => {
+          const parts = [`${i + 1}.`];
+          if (t.asat) parts.push(`Date: ${t.asat}`);
+          if (t.preview) parts.push(`Preview: ${t.preview}`);
+          if (t.asset_description) parts.push(`Asset: ${t.asset_description}`);
+          return parts.join('\n  ');
         })
         .join('\n\n');
 
-      const result = {
-        threads: data.items,
-        has_more: data.has_more,
-        next_page_token: data.next_page_token ?? null,
-      };
+      api.logger.info('openclaw-fabric: listing interactions... done');
 
-      api.logger.info('openclaw-fabric: listing threads... done');
+      const pagination = data.has_more
+        ? `\n\nMore interactions available. To see the next page, call this tool again with page_token: "${data.next_page_token}"`
+        : '';
 
       return {
         content: [
           {
             type: 'text' as const,
-            text: `Found ${data.items.length} interactions${data.has_more ? ' (more available)' : ''}:\n\n${text}`,
+            text: `Found ${data.items.length} interactions:\n\n${text}${pagination}`,
           },
         ],
-        details: result,
+        details: {
+          interactions,
+          has_more: data.has_more,
+          next_page_token: data.next_page_token ?? null,
+        },
       };
     },
   });
