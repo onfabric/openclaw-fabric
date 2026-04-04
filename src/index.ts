@@ -8,7 +8,7 @@ import { registerListInteractionsTool } from './tools/list-interactions';
 export default definePluginEntry({
   id: PLUGIN_ID,
   name: 'OpenClaw Fabric',
-  description: 'Portable AI memory for OpenClaw',
+  description: 'Sync interactions from various platforms and make them available to OpenClaw',
   configSchema,
   register(api) {
     const cfg = parseConfig(api.pluginConfig);

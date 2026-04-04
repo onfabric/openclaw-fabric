@@ -1,6 +1,6 @@
 # OpenClaw Fabric Plugin
 
-Portable AI memory for OpenClaw.
+Sync interactions from various platforms and make them available to OpenClaw.
 
 ## Installation
 
