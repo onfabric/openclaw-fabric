@@ -1,7 +1,7 @@
 {
   "name": "@onfabric/openclaw-fabric",
   "description": "Sync interactions from various platforms and make them available to OpenClaw",
-  "version": "0.0.27",
+  "version": "0.0.28",
   "author": "Fabric Developers <developers@onfabric.io>",
   "repository": {
     "type": "git",
